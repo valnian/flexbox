@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fish Puzzle Project - Victoria Oluyede</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a2a6c, #2a5298);
+            color: #333;
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+        
+        /* CSS Grid Layout */
+        .grid-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: auto 1fr auto;
+            gap: 20px;
+            grid-template-areas:
+                "header header"
+                "puzzle info"
+                "footer footer";
+            padding: 30px;
+        }
+        
+        .header {
+            grid-area: header;
+            text-align: center;
+            padding: 20px;
+            background: linear-gradient(to right, #3494e6, #ec6ead);
+            border-radius: 10px;
+            color: white;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 1.2rem;
+        }
+        
+        .puzzle-section {
+            grid-area: puzzle;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .info-section {
+            grid-area: info;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .footer {
+            grid-area: footer;
+            text-align: center;
+            padding: 20px;
+            background: #e9ecef;
+            border-radius: 10px;
+            font-weight: bold;
+        }
+        
+        .puzzle-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 0;
+            background: #2c3e50;
+            border-radius: 8px;
+            padding: 10px;
+            margin: 0 auto;
+            max-width: 500px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .puzzle-piece {
+            background-size: cover;
+            background-position: center;
+            border: 2px solid #1a2a6c;
+            box-sizing: border-box;
+            width: 160px;
+            height: 160px;
+        }
+        
+        .piece-A { background-image: url('images/puzzle3_A.jpg'); }
+        .piece-B { background-image: url('images/puzzle3_B.jpg'); }
+        .piece-C { background-image: url('images/puzzle3_C.jpg'); }
+        .piece-D { background-image: url('images/puzzle3_D.jpg'); }
+        .piece-E { background-image: url('images/puzzle3_E.jpg'); }
+        .piece-F { background-image: url('images/puzzle3_F.jpg'); }
+        .piece-G { background-image: url('images/puzzle3_G.jpg'); }
+        .piece-H { background-image: url('images/puzzle3_H.jpg'); }
+        .piece-I { background-image: url('images/puzzle3_I.jpg'); }
+        .piece-J { 
+            background-image: url('images/puzzle3_J.jpg');
+            display: none;
+        }
+        
+        .info-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        
+        .info-card h3 {
+            color: #3494e6;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #3494e6;
+            padding-bottom: 5px;
+        }
+        
+        .info-card p {
+            margin: 10px 0;
+            line-height: 1.6;
+        }
+        
+        .properties-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .prop-item {
+            background: #e3f2fd;
+            padding: 8px;
+            border-radius: 5px;
+            text-align: center;
+        }
+        
+        @media (max-width: 900px) {
+            .grid-container {
+                grid-template-columns: 1fr;
+                grid-template-areas:
+                    "header"
+                    "puzzle"
+                    "info"
+                    "footer";
+            }
+            
+            .puzzle-container {
+                max-width: 100%;
+            }
+            
+            .puzzle-piece {
+                width: 33.33%;
+                height: 120px;
+            }
+        }
+        
+        @media (max-width: 600px) {
+            .puzzle-piece {
+                width: 50%;
+                height: 100px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+        }
+        
+        h2 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .highlight {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+        
+        .instructions {
+            background: #ffeaa7;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            font-size: 0.9rem;
+        }
+        
+        .image-note {
+            font-style: italic;
+            color: #666;
+            text-align: center;
+            margin-top: 10px;
+        }
+        
+        .requirement-check {
+            display: flex;
+            align-items: center;
+            margin: 8px 0;
+        }
+        
+        .checkmark {
+            color: #2ecc71;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="grid-container">
+            <header class="header">
+                <h1>Fish Puzzle Project</h1>
+                <p>By Victoria Oluyede</p>
+            </header>
+            
+            <section class="puzzle-section">
+                <h2>Fish Puzzle - 10 Pieces</h2>
+                <p>Assembled with Flexbox properties</p>
+                
+                <div class="puzzle-container">
+                    <div class="puzzle-piece piece-A"></div>
+                    <div class="puzzle-piece piece-B"></div>
+                    <div class="puzzle-piece piece-C"></div>
+                    <div class="puzzle-piece piece-D"></div>
+                    <div class="puzzle-piece piece-E"></div>
+                    <div class="puzzle-piece piece-F"></div>
+                    <div class="puzzle-piece piece-G"></div>
+                    <div class="puzzle-piece piece-H"></div>
+                    <div class="puzzle-piece piece-I"></div>
+                    <div class="puzzle-piece piece-J"></div>
+                </div>
+            
+                <p class="highlight">The faulty puzzle piece (puzzle3_J.jpg) has been hidden using display: none</p>
+            </section>
+            
+            <section class="info-section">
+                <div class="info-card">
+                    <h3>About This Project</h3>
+                    <p><strong>Puzzle Type:</strong> Fish</p>
+                    <p><strong>Total Pieces:</strong> 10 (9 visible, 1 hidden)</p>
+                    <p><strong>Assignment Date:</strong> August 24th, 2025</p>
+                    <p><strong>Images Location:</strong> /images/</p>
+                    <p><strong>Image Files:</strong> puzzle3_A.jpg to puzzle3_J.jpg</p>
+                </div>
+                
+                <div class="info-card">
+                    <h3>Flexbox Properties Used</h3>
+                    <div class="properties-grid">
+                        <div class="prop-item">display: flex</div>
+                        <div class="prop-item">flex-wrap: wrap</div>
+                        <div class="prop-item">justify-content: center</div>
+                        <div class="prop-item">align-items: center</div>
+                        <div class="prop-item">gap: 0</div>
+                    </div>
+                </div>
+                
+                <div class="info-card">
+                    <h3>Assignment Requirements</h3>
+                    <div class="requirement-check">
+                        <span class="checkmark">✓</span>
+                        <span>CSS Grid layout with at least three sections</span>
+                    </div>
+                    <div class="requirement-check">
+                        <span class="checkmark">✓</span>
+                        <span>Name (Victoria Oluyede) and puzzle name (Fish) displayed</span>
+                    </div>
+                    <div class="requirement-check">
+                        <span class="checkmark">✓</span>
+                        <span>Flexbox puzzle assembly with proper CSS properties</span>
+                    </div>
+                    <div class="requirement-check">
+                        <span class="checkmark">✓</span>
+                        <span>Faulty puzzle piece hidden with display property</span>
+                    </div>
+                    <div class="requirement-check">
+                        <span class="checkmark">✓</span>
+                        <span>Puzzle piece files kept in an image folder</span>
+                    </div>
+                    <div class="requirement-check">
+                        <span class="checkmark">✓</span>
+                        <span>Assignment completion date included</span>
+                    </div>
+                </div>
+                
+                <div class="instructions">
+                    <h3>Implementation Notes</h3>
+                    <p>For the puzzle to display correctly:</p>
+                    <ol>
+                        <li>Create a folder named 'images' in the same directory as this HTML file</li>
+                        <li>Place all puzzle image files (puzzle3_A.jpg to puzzle3_J.jpg) in the images folder</li>
+                        <li>The faulty piece (puzzle3_J.jpg) will be hidden with CSS</li>
+                        <li>If your images have different dimensions, adjust the .puzzle-piece width/height in CSS</li>
+                    </ol>
+                </div>
+            </section>
+            
+            <footer class="footer">
+                <p>Assignment completed on: <span class="highlight">August 24th, 2025</span></p>
+                <p>Puzzle pieces are stored in the <span class="highlight">/images/</span> folder</p>
+            </footer>
+        </div>
+    </div>
+</body>
+</html>
